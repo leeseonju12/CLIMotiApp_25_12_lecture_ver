@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.motivation.entity;
 
 public class Motivation {
     private int id;
