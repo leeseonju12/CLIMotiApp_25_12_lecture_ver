@@ -2,9 +2,7 @@ package org.example.motivation.controller;
 
 import org.example.motivation.entity.Motivation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MotivationController {
 
@@ -19,7 +17,7 @@ public class MotivationController {
 
     public void add() {
         int id = lastId + 1;
-        System.out.print("motivation : ");
+        System.out.print("body : ");
         String body = sc.nextLine();
         System.out.print("source : ");
         String source = sc.nextLine();
@@ -34,7 +32,7 @@ public class MotivationController {
 
     public void list() {
         System.out.println("=".repeat(40));
-        System.out.printf("   번호   /    source    /    motivation   \n");
+        System.out.printf("   번호   /    source      /    body   \n");
 
         if (motivations.size() == 0) {
             System.out.println("등록된거 없음 xxxxx");
@@ -44,40 +42,13 @@ public class MotivationController {
             Motivation motivation = motivations.get(i);
 
             if (motivation.getSource().length() > 7) {
-                System.out.printf("   %d     /    %s       /     %s   \n", motivation.getId(), motivation.getSource().substring(0, 7) + "...", motivation.getBody());
+                System.out.printf("   %d     /    %s   /    %s   \n", motivation.getId(), motivation.getSource().substring(0, 7) + "...", motivation.getBody());
                 continue;
             }
-            System.out.printf("   %d     /    %s       /     %s   \n", motivation.getId(), motivation.getSource(), motivation.getBody());
+            System.out.printf("   %d     /    %s     /    %s   \n", motivation.getId(), motivation.getSource(), motivation.getBody());
         }
         System.out.println("=".repeat(40));
     }
-
-    //    public void delete(String cmd) {
-//        String[] cmdBits = cmd.split(" ");
-//        int id = Integer.parseInt(cmdBits[1]);
-//
-//        if (cmdBits.length == 1) {
-//            System.out.println("명령어 확인하고 다시 써");
-//            return;
-//        }
-//
-//        Motivation foundMotivation = null;
-//
-//        for (Motivation motivation : motivations) {
-//            if (motivation.getId() == id) {
-//                foundMotivation = motivation;
-//                break;
-//            }
-//        }
-//
-//        if (foundMotivation == null) {
-//            System.out.println("해당 moti는 ArrayList에 없던데?");
-//            return;
-//        }
-//
-//        motivations.remove(foundMotivation);
-//        System.out.println(id + "번 moti 삭제됨");
-//    }
 
     public void delete(String cmd) {
         String[] cmdBits = cmd.split(" ");
@@ -87,23 +58,51 @@ public class MotivationController {
             System.out.println("명령어 확인하고 다시 써");
             return;
         }
-
+        Motivation foundMotivation = null;
         int foundIndex = -1;
 
         for (int i = 0; i < motivations.size(); i++) {
             Motivation motivation = motivations.get(i);
             if (motivation.getId() == id) {
                 foundIndex = i;
+                foundMotivation = motivation;
                 break;
             }
         }
 
         if (foundIndex == -1) {
-            System.out.println(id + "번 motivation은 존재하지 않습니다.");
+            System.out.println("해당 moti는 ArrayList에 없던데?");
             return;
         }
 
         motivations.remove(foundIndex);
-        System.out.println(id + "번 motivation이 삭제되었습니다.");
+        System.out.println(id + "번 moti 삭제됨");
+    }
+
+    public void newDelete(String cmd) {
+        Rq rq = new Rq(cmd);
+
+        System.out.println("rq.getParams(\"id\") : " + rq.getParams("id"));
+
+        int id = Integer.parseInt(rq.getParams("id"));
+
+        Motivation foundMotivation = null;
+
+        for (int i = 0; i < motivations.size(); i++) {
+            Motivation motivation = motivations.get(i);
+            if (motivation.getId() == id) {
+                foundMotivation = motivation;
+                break;
+            }
+        }
+
+        if (foundMotivation == null) {
+            System.out.println("해당 moti는 ArrayList에 없던데?");
+            return;
+        }
+
+        motivations.remove(foundMotivation);
+        System.out.println(id + "번 moti 삭제됨");
+
     }
 }
