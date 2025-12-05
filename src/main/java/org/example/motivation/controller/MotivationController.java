@@ -19,7 +19,7 @@ public class MotivationController {
 
     public void add() {
         int id = lastId + 1;
-        System.out.print("body : ");
+        System.out.print("motivation : ");
         String body = sc.nextLine();
         System.out.print("source : ");
         String source = sc.nextLine();
@@ -34,7 +34,7 @@ public class MotivationController {
 
     public void list() {
         System.out.println("=".repeat(40));
-        System.out.printf("   번호   /    source  /     body   \n");
+        System.out.printf("   번호   /    source    /    motivation   \n");
 
         if (motivations.size() == 0) {
             System.out.println("등록된거 없음 xxxxx");
@@ -50,5 +50,60 @@ public class MotivationController {
             System.out.printf("   %d     /    %s       /     %s   \n", motivation.getId(), motivation.getSource(), motivation.getBody());
         }
         System.out.println("=".repeat(40));
+    }
+
+    //    public void delete(String cmd) {
+//        String[] cmdBits = cmd.split(" ");
+//        int id = Integer.parseInt(cmdBits[1]);
+//
+//        if (cmdBits.length == 1) {
+//            System.out.println("명령어 확인하고 다시 써");
+//            return;
+//        }
+//
+//        Motivation foundMotivation = null;
+//
+//        for (Motivation motivation : motivations) {
+//            if (motivation.getId() == id) {
+//                foundMotivation = motivation;
+//                break;
+//            }
+//        }
+//
+//        if (foundMotivation == null) {
+//            System.out.println("해당 moti는 ArrayList에 없던데?");
+//            return;
+//        }
+//
+//        motivations.remove(foundMotivation);
+//        System.out.println(id + "번 moti 삭제됨");
+//    }
+
+    public void delete(String cmd) {
+        String[] cmdBits = cmd.split(" ");
+        int id = Integer.parseInt(cmdBits[1]);
+
+        if (cmdBits.length == 1) {
+            System.out.println("명령어 확인하고 다시 써");
+            return;
+        }
+
+        int foundIndex = -1;
+
+        for (int i = 0; i < motivations.size(); i++) {
+            Motivation motivation = motivations.get(i);
+            if (motivation.getId() == id) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            System.out.println(id + "번 motivation은 존재하지 않습니다.");
+            return;
+        }
+
+        motivations.remove(foundIndex);
+        System.out.println(id + "번 motivation이 삭제되었습니다.");
     }
 }
